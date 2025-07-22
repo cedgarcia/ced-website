@@ -5,12 +5,15 @@ export const projectsQuery = groq`*[_type == "project"]{
   title,
   "slug": slug.current,
   "image": image.asset->url,
+  "imageAlt": image.alt,
+  "imageCaption": image.caption,
   shortDescription,
   url,
   overview,
   "imageGallery": imageGallery[]{
     "url": asset->url,
-    alt
+    alt,
+    caption
   },
   metaTitle,
   metaDescription,
@@ -22,12 +25,15 @@ export const projectBySlugQuery = groq`*[_type == "project" && slug.current == $
   title,
   "slug": slug.current,
   "image": image.asset->url,
+  "imageAlt": image.alt,
+  "imageCaption": image.caption,
   shortDescription,
   url,
   overview,
   "imageGallery": imageGallery[]{
     "url": asset->url,
-    alt
+    alt,
+    caption
   },
   metaTitle,
   metaDescription,
@@ -39,6 +45,8 @@ export const featuredProjectsQuery = groq`*[_type == "project"] | order(_created
   title,
   "slug": slug.current,
   "image": image.asset->url,
+  "imageAlt": image.alt,
+  "imageCaption": image.caption,
   shortDescription,
   url
 }`;

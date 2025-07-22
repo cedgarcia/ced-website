@@ -1,11 +1,12 @@
 import { groq } from 'next-sanity';
 
-export const blogQuery = groq`*[_type == "blog"]{
+export const blogQuery = groq`*[_type == "blog"] | order(_createdAt desc){
   _id,
   "slug": slug.current,
   title,
   "image": image.asset->url,
   readTime,
+  publishedDate,
   author->{
     name,
     description,
@@ -46,12 +47,27 @@ export const blogBySlugQuery = groq`*[_type == "blog" && slug.current == $slug][
   title,
   "image": image.asset->url,
   readTime,
+  publishedDate,
+  enableTableOfContents,
   author->{
     name,
     description,
     "image": image.asset->url
   },
-  content,
+  content[]{
+    ...,
+    _type == "codeBlock" => {
+      _type,
+      code,
+      language,
+      filename,
+      highlightLines
+    },
+    _type == "image" => {
+      ...,
+      "url": asset->url
+    }
+  },
   category->{
     title,
     "slug": slug.current
@@ -76,12 +92,13 @@ export const blogBySlugQuery = groq`*[_type == "blog" && slug.current == $slug][
   metaKeywords
 }`;
 
-export const blogsByCategoryQuery = groq`*[_type == "blog" && category->slug.current == $categorySlug]{
+export const blogsByCategoryQuery = groq`*[_type == "blog" && category->slug.current == $categorySlug] | order(_createdAt desc){
   _id,
   "slug": slug.current,
   title,
   "image": image.asset->url,
   readTime,
+  publishedDate,
   author->{
     name,
     "image": image.asset->url
@@ -92,7 +109,7 @@ export const blogsByCategoryQuery = groq`*[_type == "blog" && category->slug.cur
   },
   metaTitle,
   metaDescription
-} | order(_createdAt desc)`;
+}`;
 
 export const latestBlogsQuery = groq`*[_type == "blog"] | order(_createdAt desc)[0..5]{
   _id,
@@ -100,6 +117,7 @@ export const latestBlogsQuery = groq`*[_type == "blog"] | order(_createdAt desc)
   title,
   "image": image.asset->url,
   readTime,
+  publishedDate,
   author->{
     name,
     "image": image.asset->url
@@ -110,12 +128,13 @@ export const latestBlogsQuery = groq`*[_type == "blog"] | order(_createdAt desc)
   }
 }`;
 
-export const blogWithCodeQuery = groq`*[_type == "blog"]{
+export const blogWithCodeQuery = groq`*[_type == "blog"] | order(_createdAt desc){
   _id,
   "slug": slug.current,
   title,
   "image": image.asset->url,
   readTime,
+  publishedDate,
   enableTableOfContents,
   author->{
     name,
@@ -130,6 +149,12 @@ export const blogWithCodeQuery = groq`*[_type == "blog"]{
       language,
       filename,
       highlightLines
+    },
+    _type == "image" => {
+      ...,
+      "url": asset->url,
+      alt,
+      caption
     }
   },
   category->{
