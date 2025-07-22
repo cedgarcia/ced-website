@@ -15,6 +15,7 @@ export type Project = {
 };
 
 export type ProjectGalleryImage = {
+  caption: string;
   url: string;
   alt: string;
 };

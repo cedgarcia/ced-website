@@ -7,12 +7,14 @@ export type Blog = {
   image: string;
   readTime: number;
   author: BlogAuthor;
-  content: PortableTextBlock;
+  content: PortableTextBlock[] | null;
   category: BlogCategory;
   relatedPosts: Blog[];
   metaTitle: string;
   metaDescription: string;
   metaKeywords: string;
+  publishedDate?: string;
+  enableTableOfContents?: boolean;
 };
 
 export type BlogCategory = {
