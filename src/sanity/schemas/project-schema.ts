@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity';
+import { defineField, defineType } from 'sanity';
 
 export const project = defineType({
   name: 'project',
@@ -143,6 +143,12 @@ export const project = defineType({
           title: 'Alt Text',
           type: 'string',
           validation: (Rule) => Rule.required(),
+        },
+        {
+          name: 'caption',
+          title: 'Caption',
+          type: 'string',
+          description: 'Optional caption for the featured image',
         },
       ],
       validation: (Rule) => Rule.required(),
