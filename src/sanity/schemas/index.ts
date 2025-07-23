@@ -1,18 +1,10 @@
-import { siteSettings, aboutPage } from '@/src/sanity/schemas/site-schema';
-import { project } from '@/src/sanity/schemas/project-schema';
 import {
   blog,
-  blogCategory,
   blogAuthor,
+  blogCategory,
 } from '@/src/sanity/schemas/blog-schema';
+import { project } from '@/src/sanity/schemas/project-schema';
 
-const schemas = [
-  siteSettings,
-  aboutPage,
-  project,
-  blog,
-  blogCategory,
-  blogAuthor,
-];
+const schemas = [project, blog, blogCategory, blogAuthor];
 
 export default schemas;
